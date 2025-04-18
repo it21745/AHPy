@@ -148,7 +148,7 @@ class Compare:
         self._matrix = np.ones((self._size, self._size))
         for pair, value in self._pairs.items():
             location = tuple(self._elements.index(elements) for elements in pair)
-            self._matrix.itemset(location, value)
+            self._matrix[location] = value
 
     def _build_normalized_matrix(self):
         """
@@ -193,8 +193,8 @@ class Compare:
             :param x_location: tuple, the matrix location of the variable to be minimized
             """
             inverse_x_location = x_location[::-1]
-            self._matrix.itemset(x_location, x)
-            self._matrix.itemset(inverse_x_location, np.reciprocal(float(x)))
+            self._matrix[x_location] = x
+            self._matrix[inverse_x_location] = np.reciprocal(float(x))
             return np.max(np.linalg.eigvals(self._matrix))
 
         # The upper bound of the solution space is set to be 10 times the largest value of the matrix.
@@ -219,8 +219,8 @@ class Compare:
             if key != comparison:
                 location = tuple(self._elements.index(element) for element in key)
                 inverse_location = location[::-1]
-                self._matrix.itemset(location, value)
-                self._matrix.itemset(inverse_location, np.reciprocal(float(value)))
+                self._matrix[location] = value
+                self._matrix[inverse_location] = np.reciprocal(float(value))
 
     def _compute(self):
         """
